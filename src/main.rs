@@ -1,16 +1,38 @@
-use macroquad::prelude::*;
+use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
 
-#[macroquad::main("BasicShapes")]
-async fn main() {
+fn main() {
+    println!("Guess the number (1-100)!");
+
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
     loop {
-        clear_background(RED);
+        println!("Please input your guess.");
 
-        draw_line(40.0, 40.0, 100.0, 200.0, 15.0, BLUE);
-        draw_rectangle(screen_width() / 2.0 - 60.0, 100.0, 120.0, 60.0, GREEN);
-        draw_circle(screen_width() - 30.0, screen_height() - 30.0, 15.0, YELLOW);
+        let mut guess = String::new();
 
-        draw_text("IT WORKS!", 20.0, 20.0, 30.0, DARKGRAY);
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
 
-        next_frame().await
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please type a number!");
+                continue;
+            }
+        };
+
+        println!("You guessed: {guess}");
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
     }
 }
