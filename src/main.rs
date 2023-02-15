@@ -1,38 +1,34 @@
-use rand::Rng;
-use std::cmp::Ordering;
-use std::io;
+use macroquad::prelude::*;
+#[macroquad::main("basic")]
+async fn main() {
+    let char_size = 10.0;
+    let mut width = screen_width();
+    let mut height = screen_height();
+    let spd = 2.0;
 
-fn main() {
-    println!("Guess the number (1-100)!");
-
-    let secret_number = rand::thread_rng().gen_range(1..101);
+    let mut char_pos = vec2(width / 2.0, height / 2.0);
 
     loop {
-        println!("Please input your guess.");
+        width = screen_width();
+        height = screen_height();
+        draw_rectangle(char_pos.x, char_pos.y, char_size, char_size, WHITE);
 
-        let mut guess = String::new();
-
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read line");
-
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("Please type a number!");
-                continue;
-            }
-        };
-
-        println!("You guessed: {guess}");
-
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
-            Ordering::Equal => {
-                println!("You win!");
-                break;
-            }
+        if (is_key_down(KeyCode::Left) || is_key_down(KeyCode::A)) && char_pos.x > 0.0 {
+            char_pos.x -= spd;
         }
+        if (is_key_down(KeyCode::Right) || is_key_down(KeyCode::D))
+            && (char_pos.x + char_size) < width
+        {
+            char_pos.x += spd;
+        }
+        if (is_key_down(KeyCode::Up) || is_key_down(KeyCode::W)) && char_pos.y > 0.0 {
+            char_pos.y -= spd;
+        }
+        if (is_key_down(KeyCode::Down) || is_key_down(KeyCode::S))
+            && char_pos.y + char_size < height
+        {
+            char_pos.y += spd;
+        }
+        next_frame().await
     }
 }
