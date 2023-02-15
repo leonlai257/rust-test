@@ -1,4 +1,8 @@
 use macroquad::prelude::*;
+
+mod tiles;
+
+
 #[macroquad::main("basic")]
 async fn main() {
     let char_size = 10.0;
@@ -7,6 +11,9 @@ async fn main() {
     let spd = 2.0;
 
     let mut char_pos = vec2(width / 2.0, height / 2.0);
+
+    let mut result = tiles::get_tiles();
+    println!("{}", result);
 
     loop {
         width = screen_width();
