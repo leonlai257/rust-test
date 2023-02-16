@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use ::rand::random;
 
 #[macroquad::main("basic")]
 async fn main() {
@@ -12,6 +13,13 @@ async fn main() {
     loop {
         width = screen_width();
         height = screen_height();
+
+        let mut randomX = random::<f32>() * width;
+        let mut randomY = random::<f32>() * height;
+        println!("{}, {}", randomX, randomY);
+
+        draw_rectangle(randomX, randomY, 5.0, 5.0, GREEN);
+
         draw_rectangle(char_pos.x, char_pos.y, char_size, char_size, WHITE);
 
         if (is_key_down(KeyCode::Left) || is_key_down(KeyCode::A)) && char_pos.x > 0.0 {

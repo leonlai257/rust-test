@@ -4,7 +4,7 @@ enum MahjongKey {
     Million,
     Character,
     Flower,
-    Season
+    Season,
 }
 
 pub struct MahjongTile {
@@ -19,4 +19,3 @@ pub fn get_tiles() -> MahjongTile {
     };
     result
 }
-
