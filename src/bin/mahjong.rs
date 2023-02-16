@@ -1,6 +1,11 @@
 use macroquad::prelude::*;
+
+mod tiles;
+
 #[macroquad::main("mahjong")]
 async fn main() {
+    let mut result = tiles::get_tiles();
+
     loop {
         let mahjong_height = screen_height() / 16.0;
         let mahjong_width = mahjong_height / 1.2;
