@@ -1,6 +1,11 @@
 use macroquad::prelude::*;
 use ::rand::random;
 
+struct Item {
+    x: f32,
+    y: f32,
+}
+
 #[macroquad::main("basic")]
 async fn main() {
     let char_size = 10.0;
@@ -9,18 +14,21 @@ async fn main() {
     let spd = 2.0;
 
     let mut char_pos = vec2(width / 2.0, height / 2.0);
+    let mut randomX = random::<f32>() * width;
+    let mut randomY = random::<f32>() * height;
+    let mut items = vec!(Item{x: 4.0, y: 4.0});
+
+    for n in (0..11) {
+        items = vec!(Item{x: randomX, y: randomY});
+    }
 
     loop {
         width = screen_width();
         height = screen_height();
 
-        let mut randomX = random::<f32>() * width;
-        let mut randomY = random::<f32>() * height;
-        println!("{}, {}", randomX, randomY);
-
-        draw_rectangle(randomX, randomY, 5.0, 5.0, GREEN);
-
-        draw_rectangle(char_pos.x, char_pos.y, char_size, char_size, WHITE);
+        for item in items.iter() {
+            draw_rectangle(item.x, item.y, char_size, char_size, WHITE);
+        }
 
         if (is_key_down(KeyCode::Left) || is_key_down(KeyCode::A)) && char_pos.x > 0.0 {
             char_pos.x -= spd;
