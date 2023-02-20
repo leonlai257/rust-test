@@ -65,10 +65,11 @@ async fn main() {
             && char_pos.y + char_size < height
         {
             char_pos.y += char_spd;
-        } 
+        }
 
         if char_size >= width && char_size >= height {
             // Drawing the player after win
+
             draw_rectangle(0.0, 0.0, char_size, char_size, WHITE);
 
             draw_text("YOU WIN!", width / 2.0, height / 2.0, 20.0, BLACK);
